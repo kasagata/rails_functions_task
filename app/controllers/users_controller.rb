@@ -9,7 +9,7 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     if @user.save
-      UserMailer.with(to: @user.email).welcome.deliver_later
+      UserMailer.with(to: @user.email, name: @user.name).welcome.deliver_later(wait: 1.minutes) 
       log_in(@user)
       redirect_to user_path(@user.id), notice: 'アカウントを登録しました。'
     else
